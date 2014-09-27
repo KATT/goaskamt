@@ -1,0 +1,18 @@
+{
+	"folders":
+	[
+    {
+      "folder_exclude_patterns":
+      [
+        ".*",
+        "node_modules"
+      ],
+      "follow_symlinks": true,
+      "name": "goaskamt.se",
+      "path": "/"
+    }
+	],
+	"settings":
+	{
+	}
+}

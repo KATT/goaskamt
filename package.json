@@ -1,0 +1,16 @@
+{
+  "author": "Alexander Johansson (alexander@n1s.se)",
+  "private": true,
+  "name": "goaskamt",
+  "version": "0.0.0",
+  "engines": {
+    "node": "~0.10.5",
+    "npm": "~1.2.18"
+  },
+  "dependencies": {
+    "express": "2.5.6",
+    "highlight": "0.1.0",
+    "jade": "0.20.1",
+    "socket.io": "0.8.7"
+  }
+}

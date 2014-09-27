@@ -1,0 +1,13 @@
+/* TEAM */
+Dev: Alexander Johansson
+  Contact: alexander@n1s.se
+  Twitter: @alexustwo
+  Location: London, UK
+
+Design: Daniel Farsi
+  Contact: daniel@barbal.se
+  Location: Malmö, Sweden
+
+Goa skämt: Tobias Malm
+  Contact: tob.malm@gmail.com
+  Location: Malmö, Sweden

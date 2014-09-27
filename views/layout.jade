@@ -1,0 +1,95 @@
+!!!5
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='chrome=1')
+    link(rel='icon', href='/assets/images/favicon.png', type='image/png')
+    title #{tip.question} | Goaskämt.se
+    link(rel='canonical', href='http://www.goaskamt.se/#{canonical}')
+    meta(name='viewport', content='width=640, user-scalable=no')
+
+    meta(property='og:title', content='Goa skämt')
+    //- meta(property='og:image', content='http://goaskamt.se/assets/images/og-image.jpg')
+    meta(property='og:description', content='#{tip.message}')
+    meta(property='og:url', content='http://www.goaskamt.se/#{location}')
+    meta(property='og:site_name', content='Goa skämt')
+
+    style
+        :focus {
+          outline: none;
+        }
+
+        html {
+          font-family: "Helvetica Neue", Helvetica, arial, sans-serif;
+          font-weight: 300;
+          -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+          /** To edit this background, follow this link:
+          http://svgeneration.com/generate/Patchwork?size=100&color1=ffffff&color2=e6e6e6&color3=f2f2f2&color4=ffffff&color5=f6f6f6&
+          */
+          background-color: #ffffff;
+          background-image:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHhtbG5zOnhsaW5rPSdodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rJyB3aWR0aD0nNTAwJyBoZWlnaHQ9JzUwMCc+Cgk8ZGVmcz4KCQk8ZyBpZD0nYSc+CgkJCTxyZWN0IGZpbGw9JyNlNmU2ZTYnIHdpZHRoPScxMDAnIGhlaWdodD0nMTAwJy8+CgkJCTxyZWN0IHg9JzEwMCcgZmlsbD0nI2YyZjJmMicgd2lkdGg9JzEwMCcgaGVpZ2h0PScxMDAnLz4KCQkJPHJlY3QgeD0nMjAwJyBmaWxsPScjZmZmZmZmJyB3aWR0aD0nMTAwJyBoZWlnaHQ9JzEwMCcvPgoJCQk8cmVjdCB4PSczMDAnIGZpbGw9JyNmNmY2ZjYnIHdpZHRoPScxMDAnIGhlaWdodD0nMTAwJy8+CgkJCTxyZWN0IHg9JzQwMCcgZmlsbD0nI2ZmZmZmZicgd2lkdGg9JzEwMCcgaGVpZ2h0PScxMDAnLz4KCQkJPHJlY3QgeD0nNTAwJyBmaWxsPScjZTZlNmU2JyB3aWR0aD0nMTAwJyBoZWlnaHQ9JzEwMCcvPgoJCQk8cmVjdCB4PSc2MDAnIGZpbGw9JyNmMmYyZjInIHdpZHRoPScxMDAnIGhlaWdodD0nMTAwJy8+CgkJCTxyZWN0IHg9JzcwMCcgZmlsbD0nI2ZmZmZmZicgd2lkdGg9JzEwMCcgaGVpZ2h0PScxMDAnLz4KCQkJPHJlY3QgeD0nODAwJyBmaWxsPScjZjZmNmY2JyB3aWR0aD0nMTAwJyBoZWlnaHQ9JzEwMCcvPgoJCTwvZz4KCTwvZGVmcz4KCTx1c2UgeD0nLTQwMCcgeT0nMCcgeGxpbms6aHJlZj0nI2EnLz4gIAoJPHVzZSB4PSctMzAwJyB5PScxMDAnIHhsaW5rOmhyZWY9JyNhJy8+Cgk8dXNlIHg9Jy0yMDAnIHk9JzIwMCcgeGxpbms6aHJlZj0nI2EnLz4KCTx1c2UgeD0nLTEwMCcgeT0nMzAwJyB4bGluazpocmVmPScjYScvPgoJPHVzZSB4PScwJyB5PSc0MDAnIHhsaW5rOmhyZWY9JyNhJy8+Cjwvc3ZnPg==');
+        }
+
+  body
+    #container!=body
+    script(type='text/javascript')
+        function updateDOM(data, pushState) {
+            var url = '/' + data.permalink;
+            document.getElementById('question').innerHTML = data.question;
+            document.getElementById('answer').innerHTML = data.answer;
+            document.getElementById('permalink').attr = url;
+
+            document.title = data.question + ' | Goa skämt';
+            if (!pushState || !history.pushState) {
+                return;
+            }
+            if (document.location.pathname == url) {
+                return;
+            }
+
+            history.pushState(null, null, url);
+        }
+        function fetch(url, pushState) {
+            url = url || '';
+            url = '/' + url + '.json';
+
+            var oReq = new XMLHttpRequest();
+            oReq.onload = function () {
+                data = JSON.parse(oReq.responseText);
+                updateDOM(data, pushState);
+            };
+            oReq.open("get", url, true);
+            oReq.send();
+        };
+
+        function onLoad() {
+            if (!JSON) {
+                return;
+            }
+
+            var $refresh = document.getElementById('refresh');
+
+            $refresh.onmousedown = function (e) {
+                fetch(null, true);
+                e.preventDefault();
+            };
+            $refresh.onclick = function (e) {
+                e.preventDefault();
+            };
+        };
+
+        window.onpopstate = function (event) {
+            var current = document.getElementById('permalink').getAttribute('href');
+            var next = document.location.pathname;
+
+            if (current === next || next === '/') {
+                return;
+            }
+
+            fetch(next.substr(1), false);
+        };
+
+        onLoad();
