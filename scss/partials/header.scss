@@ -19,7 +19,7 @@
   display: none;
   float: right;
 }
-@media #{$mediup-up}{
+@media #{$medium-up}{
   .header__instructions {
     display: block;
   }
