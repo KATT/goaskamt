@@ -1,5 +1,5 @@
 {
-  "author": "Alexander Johansson (alexander@n1s.se)",
+  "author": "Alexander Johansson (alexander@n1s.se), Tobias Malm & Daniel Farsi",
   "private": true,
   "name": "goaskamt",
   "version": "0.0.0",
@@ -22,6 +22,7 @@
     "gulp-notify": "~1.1.1",
     "gulp-compass": "~1.1.5",
     "gulp-util": "~2.2.14",
-    "gulp-file-include": "~0.5.1"
+    "gulp-file-include": "~0.5.1",
+    "marked": "~0.3.2"
   }
 }

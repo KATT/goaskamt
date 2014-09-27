@@ -3,6 +3,7 @@ process.chdir(__dirname);
 var express = require('express'),
     hl = require("highlight").Highlight,
     io = require('socket.io'),
+    marked = require('marked'),
     https = require('https');
 
 
@@ -84,8 +85,8 @@ var fetchNewTips = function (callback) {
           var permalink = line[0] || String(index);
 
           obj.permalink = permalink.toLowerCase().replace(/[^a-z0-9-]/g, '');
-          obj.question = line[1];
-          obj.answer = line[2];
+          obj.question = marked(line[1]);
+          obj.answer = marked(line[2]);
 
           newTips.push(obj);
 
