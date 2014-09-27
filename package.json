@@ -7,6 +7,9 @@
     "node": "~0.10.5",
     "npm": "~1.2.18"
   },
+  "scripts": {
+    "postinstall": "node node_modules/.bin/gulp default"
+  },
   "dependencies": {
     "express": "2.5.6",
     "highlight": "0.1.0",
