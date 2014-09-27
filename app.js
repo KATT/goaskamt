@@ -129,7 +129,8 @@ app.get('/.:format?', function (req, res) {
     locals: {
       tip: tip,
       location: '',
-      canonical: tip.permalink
+      canonical: tip.permalink,
+      title: tip.question.replace(/(<([^>]+)>)/ig,"")
     }
   });
 });
@@ -170,7 +171,8 @@ app.get('/:permalink.:format?', function (req, res) {
       locals: {
         tip: tip,
         location: tip.permalink,
-        canonical: tip.permalink
+        canonical: tip.permalink,
+        title: tip.question.replace(/(<([^>]+)>)/ig,"")
       }
     });
   } else {
