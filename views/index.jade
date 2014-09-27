@@ -1,9 +1,7 @@
 article.joke
   .joke__delivery
-    div#question!=tip.question
-    div#answer!=tip.answer
-  footer
-    p
-      a#refresh(href="/")="Mer &raquo;"
-    p
-      a#permalink(href="/" + tip.permalink)="Permalink"
+    div.question#question!=tip.question
+    div.answer#answer!=tip.answer
+    footer
+      p
+        a#permalink(href="/" + tip.permalink)="Länk till skämtet"

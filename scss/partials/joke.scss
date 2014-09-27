@@ -1,15 +1,13 @@
 .jokes {
   min-height: 100vh;
-  overflow: hidden;   
+  overflow: hidden;
   position: relative;
 }
 .joke {
   padding: 25px;
-  display: none; 
-  @include stretch; 
+  display: none;
+  @include stretch;
   @include box-sizing(border-box);
-}
-.joke--current, .joke:first-child {
   @include flexbox((
     display: box,
     flex-align: center
@@ -27,13 +25,22 @@
   width: 100%;
   max-width: 960px;
   margin: 0 auto;
+  position: relative;
   font-weight: 700;
-}
-.joke__meta {
-  position: absolute;
-  bottom: 25px; 
-  left: 15px; 
-  border-bottom: 1px solid darken($primary, 30%);
-  color: darken($primary, 40%);
-  @include fs($zeta);
+  footer {
+    position: absolute;
+    top: 100%;
+    font-weight: 700;
+    @include fs($zeta);
+    a {
+      display: inline-block;
+      padding: 3px 5px;
+      color: #d05252;
+      border: 1px solid #e75c5c;
+      &:hover {
+        color: #953838;
+        background: #e75c5c;
+      }
+    }
+  }
 }
