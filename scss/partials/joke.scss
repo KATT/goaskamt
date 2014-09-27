@@ -5,7 +5,7 @@
 }
 .joke {
   padding: 25px;
-  display: none;
+  padding-bottom: 62px;
   @include stretch;
   @include box-sizing(border-box);
   @include flexbox((
