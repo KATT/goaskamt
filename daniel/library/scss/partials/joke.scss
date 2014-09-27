@@ -1,0 +1,39 @@
+.jokes {
+  min-height: 100vh;
+  overflow: hidden;   
+  position: relative;
+}
+.joke {
+  padding: 25px;
+  display: none; 
+  @include stretch; 
+  @include box-sizing(border-box);
+}
+.joke--current, .joke:first-child {
+  @include flexbox((
+    display: box,
+    flex-align: center
+  ), $version: 1);
+  @include flexbox((
+    display: flexbox,
+    flex-align: center
+  ), $version: 2);
+  @include flexbox((
+    display: flex,
+    align-items: center
+  ));
+}
+.joke__delivery {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  font-weight: 700;
+}
+.joke__meta {
+  position: absolute;
+  bottom: 25px; 
+  left: 15px; 
+  border-bottom: 1px solid darken($primary, 30%);
+  color: darken($primary, 40%);
+  @include fs($zeta);
+}

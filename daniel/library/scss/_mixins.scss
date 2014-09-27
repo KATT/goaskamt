@@ -1,0 +1,54 @@
+@mixin rem($property, $rem){
+  #{$property}: ($rem*10) + px;
+  #{$property}: $rem + rem;
+}
+@mixin fs($size){
+  @include rem("font-size", $size);
+}
+@mixin margin($tm, $bm){
+  @include rem("margin-top", $line-height*$tm);
+  @include rem("margin-bottom", $line-height*$bm);
+}
+@mixin padding($tp, $bp){
+  @include rem("padding-top", $line-height*$tp);
+  @include rem("padding-bottom", $line-height*$bp);
+}
+@mixin space($tm, $tp, $bp, $bm){
+  @include rem("margin-top", $line-height*$tm);
+  @include rem("padding-top", $line-height*$tp);
+  @include rem("padding-bottom", $line-height*$bp);
+  @include rem("margin-bottom", $line-height*$bm);
+}
+@mixin click(){
+  cursor: hand;
+  cursor: pointer;
+}
+// keyframes mixin
+@mixin keyframes($name) {
+  @-webkit-keyframes #{$name} {
+    @content;
+  }
+  @-moz-keyframes #{$name} {
+    @content;
+  }
+  @-ms-keyframes #{$name} {
+    @content;
+  }
+  @keyframes #{$name} {
+    @content;
+  }
+}
+@mixin font-feature() {
+  -moz-font-feature-settings:"calt" 1, "ss01";
+  -moz-font-feature-settings:"calt=1", "ss01";
+  -ms-font-feature-settings:"calt" 1, "ss01";
+  -o-font-feature-settings:"calt" 1, "ss01";
+  -webkit-font-feature-settings:"calt" 1, "ss01";
+  font-feature-settings:"calt" 1, "ss01";
+}
+@mixin placeholder {
+    &:-moz-placeholder { @content; }
+    &::-moz-placeholder { @content; }
+    &:-ms-input-placeholder { @content; }
+    &::-webkit-input-placeholder { @content; } 
+}

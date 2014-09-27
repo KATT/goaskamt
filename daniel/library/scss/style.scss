@@ -1,0 +1,25 @@
+// Compass includes 
+@import "compass/reset";
+@import "compass/css3";
+@import "compass/utilities/general/clearfix";
+@import "compass/css3/flexbox"; 
+@import "compass/layout/stretching";
+
+@import "variables", "mediaqueries", "mixins", "typography", "button";
+@import url(http://fonts.googleapis.com/css?family=Dosis:200,300,400,500,600,700,800|Ek+Mukta:200,300,400,500,600,700,800|Averia+Libre:400,700,300,300italic,400italic,700italic);
+html {
+  font: $font-weight #{$font-size}%/#{$line-height} $sans;
+  height: 100%; 
+}
+body {
+  color: $secondary;
+  background: $primary; 
+  min-height: 100%; 
+  -webkit-font-smoothing: antialiased;
+  @include fs($epsilon);
+  @include font-feature();
+}
+@media #{$medium-up}{
+}
+
+@import "partials/header","partials/joke";
