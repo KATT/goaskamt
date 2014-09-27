@@ -78,15 +78,30 @@ var fetchNewTips = function (callback) {
         var lines = output.split('\n');
         var index = 0;
         lines.forEach(function (line) {
-          line = line.split('\t');
-          if (!line[1]) return;
+          var lineArr = line.split('\t');
 
-          var obj = {};
-          var permalink = line[0] || String(index);
+          var permalink   = lineArr[0];
+          var question    = lineArr[1];
+          var answer      = lineArr[2];
+          var isApproved  = lineArr[3];
 
-          obj.permalink = permalink.toLowerCase().replace(/[^a-z0-9-]/g, '');
-          obj.question = marked(line[1]);
-          obj.answer = marked(line[2]);
+          if (!question || !answer) {
+            console.error('Row', index, line, 'does not have both Q&A');
+            return;
+          }
+          if (String(isApproved) !== '1') {
+            console.warn('Row', index, line, 'is not approved');
+            return;
+          }
+
+          permalink = permalink.toLowerCase().replace(/[^a-z0-9-]/g, '');
+          permalink = permalink || String(index);
+
+          var obj = {
+            permalink:  permalink,
+            question:   marked(answer),
+            answer:     marked(question)
+          };
 
           newTips.push(obj);
 
