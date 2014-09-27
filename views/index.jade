@@ -1,7 +1,9 @@
-article
-  blockquote
-      p#question!=tip.question
-      p#answer!=tip.answer
-      a#refresh(href="/")="More &raquo;"
+article.joke
+  .joke__delivery
+    p#question!=tip.question
+    p#answer!=tip.answer
   footer
-    a#permalink(href="/" + tip.permalink)="Permalink"
+    p
+      a#refresh(href="/")="Mer &raquo;"
+    p
+      a#permalink(href="/" + tip.permalink)="Permalink"
