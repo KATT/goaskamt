@@ -99,8 +99,8 @@ var fetchNewTips = function (callback) {
 
           var obj = {
             permalink:  permalink,
-            question:   marked(answer),
-            answer:     marked(question)
+            question:   marked(question),
+            answer:     marked(answer)
           };
 
           newTips.push(obj);
