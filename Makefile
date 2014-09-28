@@ -1,12 +1,22 @@
 default: setup run
 
 run:
-	nodemon app.js
+	./node_modules/foreman/nf.js start --procfile Procfile.local
+
+build:
+	rm -rf public/
+	./node_modules/brunch/bin/brunch build --production
 
 setup:
-	npm install -g nodemon
 	npm install
 	git remote add heroku git@heroku.com:goaskamt.git
 
-deploy:
-	git push heroku master
+deploy: build
+	git add --force public/*
+
+	git commit -m "heroku deploy"
+
+	git push heroku master --force
+	git reset HEAD~1
+
+	heroku open

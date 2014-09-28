@@ -1,6 +1,5 @@
 logs/
 node_modules/
 .sass-cache/
-
-# sublime
 *.sublime-workspace
+public/
