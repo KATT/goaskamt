@@ -22,7 +22,8 @@ function App() {
 
   $body.on('vclick', '.refresh-joke', this._refreshJoke.bind(this));
 
-  $body.on('vclick', '.header__info', this._showPageInfo.bind(this));
+  this._pageInfoVisible = false;
+  $body.on('vclick', '.header__info', this._togglePageInfo.bind(this));
   $body.on('vclick', '.page-info, .container', this._hidePageInfo.bind(this));
   this._addShareButtonListeners();
 
@@ -45,8 +46,14 @@ function App() {
 
 };
 
-App.prototype._showPageInfo = function(e) {
-  e.stopPropagation();
+App.prototype._togglePageInfo = function(e) {
+  if (e) {
+    e.stopPropagation();
+  }
+  if (this._pageInfoVisible) {
+    this._hidePageInfo();
+    return;
+  }
   this._pageInfoVisible = true;
   $('.page-info').velocity({
     translateY: ['0%', '-100%']
@@ -63,7 +70,14 @@ App.prototype._showPageInfo = function(e) {
   });
 };
 
-App.prototype._hidePageInfo = function() {
+App.prototype._hidePageInfo = function(e) {
+  if (e) {
+    e.stopPropagation();
+  }
+  if (!this._pageInfoVisible) {
+    return;
+  }
+  this._pageInfoVisible = false;
   $('.page-info').velocity({
     translateY: ['-100%', '0%']
   }, {
