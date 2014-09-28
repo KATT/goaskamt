@@ -4,6 +4,7 @@ run:
 	./node_modules/foreman/nf.js start --procfile Procfile.local
 
 build:
+	rm -rf public/
 	./node_modules/brunch/bin/brunch build --production
 
 setup:
@@ -11,8 +12,7 @@ setup:
 	git remote add heroku git@heroku.com:goaskamt.git
 
 deploy: build
-	git add --force public/css/style.css
-	# git add --force public/js/app.js
+	git add --force public/*
 
 	git commit -m "heroku deploy"
 
