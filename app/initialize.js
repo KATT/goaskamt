@@ -1,4 +1,8 @@
 var $body;
+
+var nextTick = function(fn) {
+  setTimeout(fn, 1);
+};
 function App() {
   var self = this;
 
@@ -143,18 +147,21 @@ App.prototype._showJoke = function(data) {
 
   $newJoke.insertAfter($oldJoke).find('.question p').balanceText();
 
-  $oldJoke.velocity({
-    scale: 0.7,
-    opacity: [0, 1]
-  }, 500, 'easeOutQuart', function(){
-    $oldJoke.remove();
-  });
-  $newJoke.velocity({
-    scale: [1, 1.2],
-    opacity: [1, 0]
-  }, 500, 'easeOutQuart');
 
   this._$joke = $newJoke;
+
+  nextTick(function() {
+    $oldJoke.velocity({
+      scale: 0.7,
+      opacity: [0, 1]
+    }, 500, 'easeOutQuart', function(){
+      $oldJoke.remove();
+    });
+    $newJoke.velocity({
+      scale: [1, 1.2],
+      opacity: [1, 0]
+    }, 500, 'easeOutQuart');
+  })
 };
 
 App.prototype._updateState = function(data) {
