@@ -143,11 +143,14 @@ var fetchNewTips = function (callback) {
 
 fetchNewTips();
 
-var renderTip = function(tip, res, locals) {
+var renderTip = function(tip, res, location) {
+  if (typeof(location) == 'undefined') {
+    location = tip.permalink;
+  }
   res.render('index', {
     locals: {
       tip: tip,
-      location: '',
+      location: location,
       canonical: tip.permalink,
       title: tip.question.replace(/(<([^>]+)>)/ig,"")
     }
@@ -167,7 +170,7 @@ app.get('/.:format?', function (req, res) {
     res.send(tip);
     return;
   }
-  renderTip(tip, res);
+  renderTip(tip, res, '');
 });
 
 
@@ -206,14 +209,7 @@ app.get('/:permalink.:format?', function (req, res, next) {
       });
       return;
     }
-    res.render('index', {
-      locals: {
-        tip: tip,
-        location: tip.permalink,
-        canonical: tip.permalink,
-        title: tip.question.replace(/(<([^>]+)>)/ig,"")
-      }
-    });
+    renderTip(tip, res);
   } else {
     res.redirect('/');
   }
