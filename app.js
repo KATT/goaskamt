@@ -165,11 +165,15 @@ app.get('/_latest', function (req, res) {
   res.redirect('/' + tip.permalink);
 });
 
-app.get('/:permalink.:format?', function (req, res) {
+app.get('/:permalink.:format?', function (req, res, next) {
   var permalink = req.params.permalink;
   var format = req.params.format;
 
   var tip = generateTip(permalink);
+  if (!tip) {
+    next();
+    return;
+  }
 
   if (format === 'json') {
     res.send(tip);
