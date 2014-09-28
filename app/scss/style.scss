@@ -69,10 +69,13 @@ a {
   font-weight: 300;
 }
 .bold, b, strong {
-  font-weight: 800;
+  font-weight: 700;
 }
 em {
   font-weight: 200;
+  a {
+    font-weight: 200;
+  }
 }
 
 /*
