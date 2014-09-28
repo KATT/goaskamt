@@ -26,6 +26,8 @@
     "gulp-compass": "~1.1.5",
     "gulp-util": "~2.2.14",
     "gulp-file-include": "~0.5.1",
-    "marked": "~0.3.2"
+    "marked": "~0.3.2",
+    "foreman": "^0.4.2",
+    "nodemon": "^1.2.1"
   }
 }

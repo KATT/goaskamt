@@ -1,2 +1,3 @@
-gulp: gulp watch
-nodemon: nodemon app.js
+gulp: ./node_modules/gulp/bin/gulp.js watch
+nodemon: ./node_modules/nodemon/bin/nodemon.js app.js
+
