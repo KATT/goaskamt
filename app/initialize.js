@@ -13,7 +13,7 @@ function App() {
   $body.on('vclick', '.refresh-joke', this._refreshJoke.bind(this));
 
   $body.on('vclick', '.header__info', this._showPageInfo.bind(this));
-  $body.on('vclick', '.page-info', this._hidePageInfo.bind(this));
+  $body.on('vclick', '.page-info, .container', this._hidePageInfo.bind(this));
   this._addShareButtonListeners();
 
 
@@ -35,7 +35,8 @@ function App() {
 
 };
 
-App.prototype._showPageInfo = function() {
+App.prototype._showPageInfo = function(e) {
+  e.stopPropagation();
   this._pageInfoVisible = true;
   $('.page-info').velocity({
     translateY: ['0%', '-100%']
