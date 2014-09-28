@@ -10,6 +10,7 @@ function App() {
 
 
   this._$joke       = $('.joke');
+  this._$joke.find('.question p').balanceText();
   this._loadJoke();
 
 
@@ -137,29 +138,28 @@ App.prototype._loadJoke = function(permalink) {
 
 App.prototype._showJoke = function(data) {
   var $oldJoke = this._$joke;
-  var $newJoke = $oldJoke.clone();
+  var $newJoke = $oldJoke.clone().css('opacity', 0);
 
   var url = "http://goaskamt.se/" + data.permalink;
 
-  $newJoke.find('.question').html(data.question).children().balanceText();
-  $newJoke.find('.answer').html(data.answer).children().balanceText();
+  $newJoke.find('.question').html(data.question);
+  $newJoke.find('.answer').html(data.answer);
   $newJoke.find('.permalink').val(url);
 
   $newJoke.find('.share--twitter').val(url);
 
-  $newJoke.insertAfter($oldJoke);
+  $newJoke.insertAfter($oldJoke).find('.question p').balanceText();
 
   $oldJoke.velocity({
-    scale: 0.85,
+    scale: 0.7,
     opacity: [0, 1]
   }, 500, 'easeOutQuart', function(){
     $oldJoke.remove();
   });
   $newJoke.velocity({
-    scale: [1, 1.15],
+    scale: [1, 1.2],
     opacity: [1, 0]
   }, 500, 'easeOutQuart');
-
 
   this._$joke = $newJoke;
 };

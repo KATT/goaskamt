@@ -23,6 +23,7 @@ body {
 .container {
   position: relative;
   & > footer {
+    text-align: center;
     position: absolute;
     bottom: 15px;
     left: 15px;
@@ -60,7 +61,6 @@ a {
     background: #e75c5c;
   }
 }
-
 /*
  * TYPOGRAPHY
  */
@@ -160,6 +160,13 @@ em {
   text-align: center;
   height: 52px;
   line-height: 52px;
+  background: #e75c5c;
+}
+@media #{$medium-up}{
+  .refresh-joke {
+    padding: 0 50px;
+    display: inline-block;
+  }
 }
 
 @import "_partials/header","_partials/joke";
