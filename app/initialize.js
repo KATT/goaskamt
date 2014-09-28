@@ -6,17 +6,9 @@ function App() {
 
   this._promises = {};
 
-  this._pageInfoVisible = false;
-
-
   this._$joke       = $('.joke');
   this._$joke.find('.question p').balanceText();
   this._loadJoke();
-
-
-  $body.on('vclick', '.joke__sharelink', function(){
-    $(this).find('input').select();
-  });
 
   $body.on('vclick', '.refresh-joke', this._refreshJoke.bind(this));
 
@@ -44,28 +36,23 @@ function App() {
 };
 
 App.prototype._showPageInfo = function() {
-  if(this._pageInfoVisible){
-    this._hidePageInfo();
-  }else{
-    this._pageInfoVisible = true;
-    $('.page-info').velocity({
-      translateY: ['0%', '-100%']
-    }, {
-      duration: 500,
-      easing: 'easeOutQuart',
-      display: 'block'
-    });
-    $('.container').velocity({
-      translateY: $('.page-info').outerHeight()
-    }, {
-      duration: 500,
-      easing: 'easeOutQuart'
-    });
-  }
+  this._pageInfoVisible = true;
+  $('.page-info').velocity({
+    translateY: ['0%', '-100%']
+  }, {
+    duration: 500,
+    easing: 'easeOutQuart',
+    display: 'block'
+  });
+  $('.container').velocity({
+    translateY: $('.page-info').outerHeight()
+  }, {
+    duration: 500,
+    easing: 'easeOutQuart'
+  });
 };
 
 App.prototype._hidePageInfo = function() {
-  this._pageInfoVisible = false;
   $('.page-info').velocity({
     translateY: ['-100%', '0%']
   }, {
@@ -144,7 +131,7 @@ App.prototype._showJoke = function(data) {
 
   $newJoke.find('.question').html(data.question);
   $newJoke.find('.answer').html(data.answer);
-  $newJoke.find('.permalink').val(url);
+  $newJoke.find('.share--url span').text(url);
 
   $newJoke.find('.share--twitter').val(url);
 

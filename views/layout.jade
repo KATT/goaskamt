@@ -17,23 +17,22 @@ html
 
     link(rel='stylesheet', href='/css/style.css')
 
-
   body
-
     div.page-info
       p
         | Goaskämt.se är ett litet, litet, litet sidoprojekt av Alexander Johansson, Daniel Farsi och Tobias Malm.
+      p
+        | Saknar du ett skämt? Maila oss på joke@goaskamt.se
     div.container
       header.header
         .header__title
           | Goaskämt.se
           strong Men Skratta då!
         .header__info
-          img(src="/svg/info.svg", class="icon")
+          i(class="icon-info")
       .jokes!=body
       footer
-        a.refresh-joke(href="/")="MERA SKÄMT!"
-
+        a.button.refresh-joke(href="/")="MERA SKÄMT!"
     script(src='/js/app.js')
     script
         require('initialize');

@@ -5,7 +5,7 @@
 @import "compass/css3/flexbox";
 @import "compass/layout/stretching";
 
-@import "variables", "mediaqueries", "mixins", "typography", "button";
+@import "variables", "mediaqueries", "mixins", "typography", "button", "font";
 @import url(http://fonts.googleapis.com/css?family=Dosis:300,700);
 html {
   font: $font-weight #{$font-size}%/#{$line-height} $sans;
@@ -14,14 +14,16 @@ html {
 body {
   color: $secondary;
   background: $primary;
-  min-height: 100%;
+  height: 100%;
   font-weight: 700;
+  overflow: hidden;
   -webkit-font-smoothing: antialiased;
   @include fs($epsilon);
   @include font-feature();
 }
 .container {
   position: relative;
+  height: 100%;
   & > footer {
     text-align: center;
     position: absolute;
@@ -62,8 +64,31 @@ a {
   }
 }
 /*
+ * BUTTON
+ */
+.button {
+  display: inline-block;
+  background: #e75c5c;
+  color: $link;
+  letter-spacing: 0.5px;
+  cursor: hand;
+  cursor: pointer;
+  @include border-radius(10px);
+  @include transition(transform 0.05s ease-out);
+  &:hover {
+    background: #a93d3d;
+    color: $primary;
+  }
+  &:active {
+    @include scale(0.98);
+  }
+}
+/*
  * TYPOGRAPHY
  */
+p {
+  @include margin(0.5, 0.5);
+}
 .thin {
   font-weight: 300;
 }
@@ -76,17 +101,20 @@ em {
     font-weight: 300;
   }
 }
+i {
+  margin-left: -2px;
+}
 /*
  * JOKE
  */
 .jokes {
-  min-height: 100vh;
+  height: 100%;
   overflow: hidden;
   position: relative;
 }
 .joke {
   padding: 25px;
-  padding-bottom: 62px;
+  padding-bottom: 88px;
   @include stretch;
   @include box-sizing(border-box);
   @include flexbox((
@@ -129,7 +157,7 @@ em {
     }
   }
 }
-.joke__sharelink {
+.share--url {
   @extend a;
   img {
     margin-left: 5px;

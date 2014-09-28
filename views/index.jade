@@ -3,8 +3,12 @@ article.joke
     div.question#question!=tip.question
     div.answer#answer!=tip.answer
     footer
-      a.share--facebook(href="#")="Facebook"
-      a.share--twitter(href="#")="Twitter"
-      div.joke__sharelink
-        img(src="/svg/link-intact.svg", class="icon")
-        input.permalink(value="http://goaskamt.se/" + tip.permalink)
+      a.share--facebook(href="#")
+        i(class="icon-facebook")
+        | Facebook
+      a.share--twitter(href="#")
+        i(class="icon-twitter")
+        | Twitter
+      span.share--url
+        i(class="icon-link")
+        span="http://goaskamt.se/" + tip.permalink
