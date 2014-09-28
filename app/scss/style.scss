@@ -18,6 +18,9 @@ body {
   -webkit-font-smoothing: antialiased;
   @include fs($epsilon);
   @include font-feature();
+}
+.container {
+  position: relative;
   & > footer {
     position: absolute;
     bottom: 15px;
@@ -99,6 +102,18 @@ a {
     margin-right: 5px;
   }
 }
+/*
+ * MORE JOKES
+ */
+.page__info {
+  display: none;
+  background: #461010;
+  color: $primary;
+  text-align: center;
+  @include padding(2, 2);
+  @include fs($zeta);
+}
+
 /*
  * MORE JOKES
  */
