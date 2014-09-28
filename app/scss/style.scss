@@ -7,6 +7,7 @@
 
 @import "variables", "mediaqueries", "mixins", "typography", "button", "font";
 @import url(http://fonts.googleapis.com/css?family=Dosis:300,700);
+
 html {
   font: $font-weight #{$font-size}%/#{$line-height} $sans;
   height: 100%;
