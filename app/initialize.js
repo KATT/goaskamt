@@ -63,8 +63,8 @@ App.prototype._showJoke = function(data) {
   this._$question.html(data.question).children().balanceText();
   this._$answer.html(data.answer).children().balanceText();
 
-  var url = "http://goaskamt.se/" + permalink;
-  this._$permalink.attr('href', url);
+  var url = "http://goaskamt.se/" + data.permalink;
+  this._$permalink.val(url);
 };
 
 App.prototype._updateState = function(data) {
