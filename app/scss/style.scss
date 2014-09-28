@@ -105,6 +105,31 @@ i {
   margin-left: -2px;
 }
 /*
+ * HEADER
+ */
+.header {
+  height: 42px;
+  line-height: 42px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: left;
+  padding: 0 15px;
+  text-align: justify;
+  text-transform: uppercase;
+  z-index: 1000;
+  @include fs($zeta);
+}
+.header__title {
+  float: left;
+  font-weight: 300;
+}
+.header__info {
+  float: right;
+  @extend a;
+}
+/*
  * JOKE
  */
 .jokes {
