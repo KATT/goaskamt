@@ -3,5 +3,6 @@ article.joke
     div.question#question!=tip.question
     div.answer#answer!=tip.answer
     footer
-      p
+      div.joke__sharelink
+        img(src="/svg/link-intact.svg")
         input#permalink(value="http://goaskämt.se/" + tip.permalink)

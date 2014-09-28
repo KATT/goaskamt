@@ -30,12 +30,26 @@ body {
 /*
  * BASIC STUFF
  */
-input {
+.joke__sharelink {
   display: inline-block;
-  padding: 3px 5px;
+  padding: 3px 10px;
   color: #d05252;
   background: transparent;
   border: 1px solid #e75c5c;
+  img {
+    margin-right: 5px;
+  }
+}
+input {
+  border: 0;
+  background: transparent;
+  font-family: $sans;
+  color: #d05252;
+  @include appearance(none);
+  @include fs($zeta);
+  &:focus {
+    outline: none;
+  }
 }
 a {
   display: inline-block;

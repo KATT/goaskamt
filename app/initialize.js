@@ -2,8 +2,11 @@ var $body;
 function App() {
   $body = $(document.body);
   this._bootstrapPage($body);
-
   oldUglyShit();
+
+  $body.on('click', '.joke__sharelink', function(){
+    $(this).find('input').select();
+  })
 };
 
 App.prototype._bootstrapPage = function($el) {
@@ -12,9 +15,13 @@ App.prototype._bootstrapPage = function($el) {
 
 
 function updateDOM(data, pushState) {
+  var $question = $('.question');
+  var $answer = $('.answer');
   var url = '/' + data.permalink;
-  document.getElementById('question').innerHTML = data.question;
-  document.getElementById('answer').innerHTML = data.answer;
+
+  $question.html(data.question).children().balanceText();
+  $answer.html(data.answer).children().balanceText();
+
   document.getElementById('permalink').href = url;
 
   var cleanQuestion = data.question.replace(/(<([^>]+)>)/ig,"");
