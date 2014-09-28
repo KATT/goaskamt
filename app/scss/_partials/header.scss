@@ -15,12 +15,6 @@
   float: left;
   font-weight: 300;
 }
-.header__intructions {
-  display: none;
+.header__info {
   float: right;
-}
-@media #{$medium-up}{
-  .header__intructions {
-    //display: block;
-  }
 }

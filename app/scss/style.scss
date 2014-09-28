@@ -26,25 +26,15 @@ body {
     @include fs($zeta);
   }
 }
-
-/*
- * BASIC STUFF
- */
-.joke__sharelink {
-  display: inline-block;
-  padding: 3px 10px;
-  color: #d05252;
-  background: transparent;
-  border: 1px solid #e75c5c;
-  img {
-    margin-right: 5px;
-  }
+.icon {
+  width: 12px;
+  height: 12px;
 }
 input {
   border: 0;
   background: transparent;
   font-family: $sans;
-  color: #d05252;
+  color: $link;
   @include appearance(none);
   @include fs($zeta);
   &:focus {
@@ -54,11 +44,57 @@ input {
 a {
   display: inline-block;
   padding: 3px 5px;
-  color: #d05252;
-  border: 1px solid #e75c5c;
+  color: $link;
   &:hover {
     color: #953838;
     background: #e75c5c;
+  }
+}
+/*
+ * JOKE
+ */
+.jokes {
+  min-height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+.joke {
+  padding: 25px;
+  padding-bottom: 62px;
+  @include stretch;
+  @include box-sizing(border-box);
+  @include flexbox((
+    display: box,
+    flex-align: center
+  ), $version: 1);
+  @include flexbox((
+    display: flexbox,
+    flex-align: center
+  ), $version: 2);
+  @include flexbox((
+    display: flex,
+    align-items: center
+  ));
+}
+.joke__delivery {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  position: relative;
+  font-weight: 700;
+  footer {
+    position: absolute;
+    top: 100%;
+    font-weight: 700;
+    @include margin(1, 0);
+    @include fs($zeta);
+  }
+}
+.joke__sharelink {
+  @extend a;
+  img {
+    margin-left: 5px;
+    margin-right: 5px;
   }
 }
 /*
