@@ -52,6 +52,7 @@ App.prototype._loadJoke = function(permalink) {
       })
       .fail(function() {
         deferred.reject();
+        delete self._promises[permalink];
       });
     self._promises[permalink] = deferred.promise();
   }
