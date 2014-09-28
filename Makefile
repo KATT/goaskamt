@@ -1,6 +1,7 @@
 default: setup run
 
 run:
+	rm -rf public/
 	./node_modules/foreman/nf.js start --procfile Procfile.local
 
 build:
