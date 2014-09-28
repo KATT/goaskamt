@@ -18,6 +18,11 @@
     "foreman": "^0.4.2",
     "nodemon": "^1.2.1",
     "brunch": "^1.7.17",
-    "sass-brunch": "^1.8.3"
+    "sass-brunch": "^1.8.3",
+    "javascript-brunch": "^1.7.1",
+    "clean-css-brunch": "^1.7.1",
+    "uglify-js-brunch": "^1.7.7",
+    "auto-reload-brunch": "^1.7.3",
+    "gitinfo-brunch": "^0.1.2"
   }
 }
