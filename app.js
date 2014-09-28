@@ -35,11 +35,6 @@ var tips = [
     permalink:  null,
     question:   marked('Test2'),
     answer:     marked('Test')
-  },
-  {
-    permalink:  null,
-    question:   marked('Test3'),
-    answer:     marked('Test')
   }
 ];
 
@@ -64,8 +59,8 @@ updateTips(tips);
 
 
 
-function generateTip (permalinkOrIndex) {
-  permalinkOrIndex = permalinkOrIndex || generateRandomIndex();
+function generateTip (permalinkOrIndex, notArray) {
+  permalinkOrIndex = permalinkOrIndex || generateRandomIndex(notArray);
 
   var tip = permalinks[permalinkOrIndex];
   if (!tip) {
@@ -74,8 +69,25 @@ function generateTip (permalinkOrIndex) {
   return tip;
 }
 
-function generateRandomIndex() {
-  return Math.floor(Math.random() * tips.length);
+function generateRandomIndex(notArray) {
+  if (!notArray) {
+    return Math.floor(Math.random() * tips.length);
+  }
+
+  // make an array of available ids
+  var availableIds = [];
+  for (var i = 0; i < tips.length; i++) {
+    var tip = tips[i];
+    if (notArray.indexOf(tip.permalink) === -1) {
+      availableIds.push(i);
+    }
+  }
+
+  // get a random index of the new array
+  var randomIndex = Math.floor(Math.random() * availableIds.length);
+
+  // get the original id of this
+  return availableIds[randomIndex];
 }
 
 var fetchNewTips = function (callback) {
@@ -158,8 +170,12 @@ var renderTip = function(tip, res, location) {
 };
 
 // Routes
-app.get('/.:format?', function (req, res) {
-  var tip = generateTip();
+app.all('/.:format?', function (req, res) {
+  var notArray = null;
+  if (req.body && typeof(req.body.not) === 'object') {
+    notArray = req.body.not;
+  }
+  var tip = generateTip(null, notArray);
   var format = req.params.format;
 
   res.header("Cache-Control", "no-cache, no-store, must-revalidate");
@@ -174,21 +190,7 @@ app.get('/.:format?', function (req, res) {
 });
 
 
-app.get('/_update', function (req, res) {
-  fetchNewTips(function () {
-    res.redirect('/_latest');
-  });
-});
-
-
-app.get('/_latest', function (req, res) {
-  var index = tips.length - 1;
-  var tip = tips[index];
-
-  res.redirect('/' + tip.permalink);
-});
-
-app.get('/:permalink.:format?', function (req, res, next) {
+app.all('/:permalink.:format?', function (req, res, next) {
   var permalink = req.params.permalink;
   var format = req.params.format;
 
@@ -213,6 +215,22 @@ app.get('/:permalink.:format?', function (req, res, next) {
   } else {
     res.redirect('/');
   }
+});
+
+
+
+app.get('/_update', function (req, res) {
+  fetchNewTips(function () {
+    res.redirect('/_latest');
+  });
+});
+
+
+app.get('/_latest', function (req, res) {
+  var index = tips.length - 1;
+  var tip = tips[index];
+
+  res.redirect('/' + tip.permalink);
 });
 
 // WebSocket

@@ -8,6 +8,12 @@ function App() {
 
   this._$joke       = $('.joke');
   this._$joke.find('.question p').balanceText();
+
+
+  this._seenJokes = [];
+  this._$joke = $('.joke');
+  this._$jokeTemplate = this._$joke.clone();
+
   this._loadJoke();
 
   $body.on('vclick', '.refresh-joke', this._refreshJoke.bind(this));
@@ -81,14 +87,12 @@ App.prototype._addShareButtonListeners = function() {
   $body.on('vclick', '.share--twitter', function(e) {
     e.preventDefault();
 
-    var $button = $(e.currentTarget);
-
     var text = document.title;
     var shareUrl = location.href;
 
     var params = {
         via: 'Goaskamt'
-      , original_referer: location.href
+      , original_referer: shareUrl
       , text: text
       , url: shareUrl
     };
@@ -110,9 +114,12 @@ App.prototype._loadJoke = function(permalink) {
 
   if (!self._promises[permalink]) {
     var deferred = $.Deferred();
-    $.getJSON('/' + permalink + '.json')
+
+    $.post('/' + permalink + '.json', {not: self._seenJokes})
       .then(function(data) {
-        self._promises[data.permalink] = deferred.promise();
+        if (data) {
+          self._promises[data.permalink] = deferred.promise();
+        }
         deferred.resolve(data);
       })
       .fail(function() {
@@ -126,15 +133,13 @@ App.prototype._loadJoke = function(permalink) {
 
 App.prototype._showJoke = function(data) {
   var $oldJoke = this._$joke;
-  var $newJoke = $oldJoke.clone().css('opacity', 0);
+  var $newJoke = this._$jokeTemplate.clone().css('opacity', 0);
 
   var url = "http://goaskamt.se/" + data.permalink;
 
   $newJoke.find('.question').html(data.question);
   $newJoke.find('.answer').html(data.answer);
   $newJoke.find('.share--url span').text(url);
-
-  $newJoke.find('.share--twitter').val(url);
 
   $newJoke.insertAfter($oldJoke).find('.question p').balanceText();
 
@@ -176,9 +181,18 @@ App.prototype._refreshJoke = function(e) {
 
   this._loadJoke()
     .then(function(data) {
+      console.log('then', data);
+      if (!data) {
+        self._seenJokes = [];
+        self._invalidateRandomJoke();
+        alert('Du har sett alla goa skämt!');
+        self._refreshJoke();
+        return;
+      }
       self._showJoke(data);
       self._updateState(data);
       self._invalidateRandomJoke();
+      self._seenJokes.push(data.permalink);
     })
     .fail(function() {
       alert(':(')
