@@ -55,7 +55,6 @@ a {
   display: inline-block;
   padding: 3px 5px;
   color: $link;
-  font-weight: 700;
   &:hover {
     color: #953838;
     background: #e75c5c;
@@ -69,7 +68,7 @@ a {
   font-weight: 300;
 }
 .bold, b, strong {
-  font-weight: 700;
+  font-weight: 800;
 }
 em {
   font-weight: 200;
@@ -77,7 +76,6 @@ em {
     font-weight: 200;
   }
 }
-
 /*
  * JOKE
  */
@@ -109,11 +107,9 @@ em {
   max-width: 960px;
   margin: 0 auto;
   position: relative;
-  font-weight: 700;
   footer {
     position: absolute;
     top: 100%;
-    font-weight: 700;
     @include margin(1, 0);
     @include fs($zeta);
   }
@@ -164,7 +160,6 @@ em {
   text-align: center;
   height: 52px;
   line-height: 52px;
-  font-weight: 700;
 }
 
 @import "_partials/header","_partials/joke";
