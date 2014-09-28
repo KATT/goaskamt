@@ -103,17 +103,20 @@ a {
   }
 }
 /*
- * MORE JOKES
+ * PAGE INFO
  */
-.page__info {
+.page-info {
   display: none;
-  background: #461010;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
   color: $primary;
+  background: #461010;
   text-align: center;
   @include padding(2, 2);
   @include fs($zeta);
 }
-
 /*
  * MORE JOKES
  */

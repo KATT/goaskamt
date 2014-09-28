@@ -9,6 +9,7 @@
   padding: 0 15px;
   text-align: justify;
   text-transform: uppercase;
+  z-index: 1000;
   @include fs($zeta);
 }
 .header__title {
@@ -17,4 +18,5 @@
 }
 .header__info {
   float: right;
+  cursor: pointer;
 }

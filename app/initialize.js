@@ -6,6 +6,8 @@ function App() {
 
   this._promises = {};
 
+  this._pageInfoVisible = false;
+
   this._$question   = $('.question');
   this._$answer     = $('.answer');
   this._$permalink  = $('.permalink');
@@ -18,6 +20,9 @@ function App() {
   });
 
   $body.on('vclick', '.refresh-joke', this._refreshJoke.bind(this));
+
+  $body.on('vclick', '.header__info', this._showPageInfo.bind(this));
+  $body.on('vclick', '.page-info', this._hidePageInfo.bind(this));
 
 
   window.onpopstate = function (event) {
@@ -38,6 +43,42 @@ function App() {
 
 };
 
+App.prototype._showPageInfo = function() {
+  if(this._pageInfoVisible){
+    this._hidePageInfo();
+  }else{
+    this._pageInfoVisible = true;
+    $('.page-info').velocity({
+      translateY: ['0%', '-100%']
+    }, {
+      duration: 500,
+      easing: 'easeOutQuart',
+      display: 'block'
+    });
+    $('.container').velocity({
+      translateY: $('.page-info').outerHeight()
+    }, {
+      duration: 500,
+      easing: 'easeOutQuart'
+    });
+  }
+}
+App.prototype._hidePageInfo = function() {
+  this._pageInfoVisible = false;
+  $('.page-info').velocity({
+    translateY: ['-100%', '0%']
+  }, {
+    duration: 500,
+    easing: 'easeOutQuart',
+    display: 'none'
+  });
+  $('.container').velocity({
+    translateY: 0
+  }, {
+    duration: 500,
+    easing: 'easeOutQuart'
+  });
+}
 
 App.prototype._loadJoke = function(permalink) {
   var self = this;
