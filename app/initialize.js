@@ -1,80 +1,103 @@
 var $body;
 function App() {
+  var self = this;
+
   $body = $(document.body);
-  this._bootstrapPage($body);
-  oldUglyShit();
 
-  $body.on('click', '.joke__sharelink', function(){
+  this._promises = {};
+
+  this._$question   = $('.question');
+  this._$answer     = $('.answer');
+  this._$permalink  = $('.permalink');
+
+  this._loadJoke();
+
+
+  $body.on('vclick', '.joke__sharelink', function(){
     $(this).find('input').select();
-  })
+  });
+
+  $body.on('vclick', '.refresh-joke', this._refreshJoke.bind(this));
+
+
+  window.onpopstate = function (event) {
+    var nextPermalink    = document.location.pathname.substr(1);
+
+
+    self._loadJoke(nextPermalink)
+      .then(function(data) {
+        self._showJoke(data);
+        self._updateState(data);
+        self._invalidateRandomJoke();
+      })
+      .fail(function() {
+        alert(':(')
+      });
+      ;
+  };
+
 };
 
-App.prototype._bootstrapPage = function($el) {
-  console.log('hejhej');
+
+App.prototype._loadJoke = function(permalink) {
+  var self = this;
+  permalink = permalink || '';
+
+  if (!self._promises[permalink]) {
+    var deferred = $.Deferred();
+    $.getJSON('/' + permalink + '.json')
+      .then(function(data) {
+        self._promises[data.permalink] = deferred.promise();
+        deferred.resolve(data);
+      })
+      .fail(function() {
+        deferred.reject();
+      });
+    self._promises[permalink] = deferred.promise();
+  }
+  return self._promises[permalink];
 };
 
+App.prototype._showJoke = function(data) {
+  this._$question.html(data.question).children().balanceText();
+  this._$answer.html(data.answer).children().balanceText();
 
-function updateDOM(data, pushState) {
-  var $question = $('.question');
-  var $answer = $('.answer');
-  var url = '/' + data.permalink;
+  var url = "http://goaskamt.se/" + permalink;
+  this._$permalink.attr('href', url);
+};
 
-  $question.html(data.question).children().balanceText();
-  $answer.html(data.answer).children().balanceText();
-
-  document.getElementById('permalink').href = url;
-
+App.prototype._updateState = function(data) {
   var cleanQuestion = data.question.replace(/(<([^>]+)>)/ig,"");
   document.title = cleanQuestion + ' | Goa skämt';
-  if (!pushState || !history.pushState) {
-    return;
-  }
-  if (document.location.pathname == url) {
-    return;
-  }
 
-  history.pushState(null, null, url);
-}
-function fetch(url, pushState) {
-  url = url || '';
-  url = '/' + url + '.json';
-
-  var oReq = new XMLHttpRequest();
-  oReq.onload = function () {
-    data = JSON.parse(oReq.responseText);
-    updateDOM(data, pushState);
-  };
-  oReq.open("get", url, true);
-  oReq.send();
+  var currentUrl = document.location.pathname;
+  var nextUrl = '/' + data.permalink;
+  if (history && history.pushState && currentUrl !== nextUrl) {
+    history.pushState(null, null, nextUrl);
+  }
 };
 
-function oldUglyShit() {
-
-  if (!JSON) {
-    return;
-  }
-
-  var $refresh = document.getElementById('refresh');
-
-
-  $refresh.onmousedown = function (e) {
-    fetch(null, true);
-    e.preventDefault();
-  };
-  $refresh.onclick = function (e) {
-    e.preventDefault();
-  };
+App.prototype._invalidateRandomJoke = function() {
+  delete this._promises[''];
+  this._loadJoke();
 };
 
-window.onpopstate = function (event) {
-  var current = document.getElementById('permalink').getAttribute('href');
-  var next = document.location.pathname;
-
-  if (current === next || next === '/') {
-    return;
+App.prototype._refreshJoke = function(e) {
+  var self = this;
+  if (e) {
+    e.preventDefault();
   }
 
-  fetch(next.substr(1), false);
+  this._loadJoke()
+    .then(function(data) {
+      self._showJoke(data);
+      self._updateState(data);
+      self._invalidateRandomJoke();
+    })
+    .fail(function() {
+      alert(':(')
+    });
+    ;
 };
 
 
