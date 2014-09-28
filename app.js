@@ -4,7 +4,8 @@ var express = require('express'),
     hl = require("highlight").Highlight,
     io = require('socket.io'),
     marked = require('marked'),
-    https = require('https');
+    https = require('https')
+    ;
 
 
 var app = express.createServer(),
@@ -24,7 +25,23 @@ app.configure(function () {
 });
 
 // Tips
-var tips;
+var tips = [
+  {
+    permalink:  null,
+    question:   marked('Test'),
+    answer:     marked('Test')
+  },
+  {
+    permalink:  null,
+    question:   marked('Test2'),
+    answer:     marked('Test')
+  },
+  {
+    permalink:  null,
+    question:   marked('Test3'),
+    answer:     marked('Test')
+  }
+];
 
 var permalinks = {};
 
@@ -43,7 +60,7 @@ function updateTips (newTips) {
   // console.log('Permalinks', permalinks);
 }
 
-updateTips([]);
+updateTips(tips);
 
 
 
@@ -126,6 +143,17 @@ var fetchNewTips = function (callback) {
 
 fetchNewTips();
 
+var renderTip = function(tip, res, locals) {
+  res.render('index', {
+    locals: {
+      tip: tip,
+      location: '',
+      canonical: tip.permalink,
+      title: tip.question.replace(/(<([^>]+)>)/ig,"")
+    }
+  });
+};
+
 // Routes
 app.get('/.:format?', function (req, res) {
   var tip = generateTip();
@@ -139,15 +167,7 @@ app.get('/.:format?', function (req, res) {
     res.send(tip);
     return;
   }
-
-  res.render('index', {
-    locals: {
-      tip: tip,
-      location: '',
-      canonical: tip.permalink,
-      title: tip.question.replace(/(<([^>]+)>)/ig,"")
-    }
-  });
+  renderTip(tip, res);
 });
 
 
