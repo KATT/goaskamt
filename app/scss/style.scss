@@ -35,6 +35,7 @@ input {
   background: transparent;
   font-family: $sans;
   color: $link;
+  font-weight: 500;
   @include appearance(none);
   @include fs($zeta);
   &:focus {
@@ -45,6 +46,7 @@ a {
   display: inline-block;
   padding: 3px 5px;
   color: $link;
+  font-weight: 500;
   &:hover {
     color: #953838;
     background: #e75c5c;
