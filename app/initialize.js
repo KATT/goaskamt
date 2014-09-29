@@ -10,13 +10,12 @@ function App() {
 
   this._promises = {};
 
-  this._$joke       = $('.joke');
-  this._$joke.find('.question p').balanceText();
-
-
   this._seenJokes = [];
   this._$joke = $('.joke');
   this._$jokeTemplate = this._$joke.clone();
+
+
+  this._$joke.find('.question p').balanceText();
 
   this._loadJoke();
 
@@ -25,25 +24,29 @@ function App() {
   this._pageInfoVisible = false;
   $body.on('vclick', '.header__info', this._togglePageInfo.bind(this));
   $body.on('vclick', '.page-info, .container', this._hidePageInfo.bind(this));
+
+
   this._addShareButtonListeners();
 
 
-  window.onpopstate = function (event) {
-    var nextPermalink    = document.location.pathname.substr(1);
+  window.onpopstate = this._onPopstate.bind(this);
+};
+
+App.prototype._onPopstate = function(event) {
+  var self = this;
+  var nextPermalink = document.location.pathname.substr(1);
 
 
-    self._loadJoke(nextPermalink)
-      .then(function(data) {
-        self._showJoke(data);
-        self._updateState(data);
-        self._invalidateRandomJoke();
-      })
-      .fail(function() {
-        alert(':(')
-      });
-      ;
-  };
-
+  self._loadJoke(nextPermalink)
+    .then(function(data) {
+      self._showJoke(data);
+      self._updateState(data);
+    })
+    .fail(function() {
+      alert(':(')
+    });
+    ;
+  // body...
 };
 
 App.prototype._togglePageInfo = function(e) {
@@ -159,23 +162,36 @@ App.prototype._showJoke = function(data) {
   $newJoke.find('.answer').html(data.answer);
   $newJoke.find('.share--url span').text(url);
 
-  $newJoke.insertAfter($oldJoke).find('.question p').balanceText();
+  $newJoke.insertAfter($oldJoke);
+
+  $newJoke.find('.question p').balanceText();
 
 
   this._$joke = $newJoke;
 
   nextTick(function() {
     $oldJoke.velocity({
-      scale: 0.7,
+      scale: 1.5,
       opacity: [0, 1]
     }, 500, 'easeOutQuart', function(){
       $oldJoke.remove();
     });
-    $newJoke.velocity({
-      scale: [1, 1.2],
-      opacity: [1, 0]
-    }, 500, 'easeOutQuart');
-  })
+
+    setTimeout(function() {
+      $newJoke.velocity({
+        opacity: [1, 0]
+      }, 700);
+      $newJoke.find('.question').velocity('transition.slideDownBigIn', {duration: 500});
+      $newJoke.find('.answer')
+        .css('opacity', 0)
+        .velocity('transition.slideUpBigIn', {delay: 700, duration: 500})
+        ;
+
+    }, 300);
+  });
+
+
+  this._seenJokes.push(data.permalink);
 };
 
 App.prototype._updateState = function(data) {
@@ -213,7 +229,6 @@ App.prototype._refreshJoke = function(e) {
       self._showJoke(data);
       self._updateState(data);
       self._invalidateRandomJoke();
-      self._seenJokes.push(data.permalink);
     })
     .fail(function() {
       alert(':(')
