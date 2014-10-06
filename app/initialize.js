@@ -118,7 +118,6 @@ App.prototype._addShareButtonListeners = function() {
     };
     var queryString = $.param(params);
 
-
     var redirectURL = 'https://twitter.com/intent/tweet?' + queryString;
     window.twttr = window.twttr || {};
     // from https://dev.twitter.com/web/bookmarklet
@@ -195,8 +194,7 @@ App.prototype._showJoke = function(data) {
 
 App.prototype._updateState = function(data) {
   var cleanQuestion = data.question.replace(/(<([^>]+)>)/ig,"");
-  document.title = cleanQuestion + ' | Goa skämt';
-
+  //document.title = cleanQuestion + ' | Goa skämt';
   var currentUrl = document.location.pathname;
   var nextUrl = '/' + data.permalink;
   if (history && history.pushState && currentUrl !== nextUrl) {
