@@ -1,4 +1,8 @@
 var $body;
+
+var nextTick = function(fn) {
+  setTimeout(fn, 1);
+};
 function App() {
   var self = this;
 
@@ -6,37 +10,53 @@ function App() {
 
   this._promises = {};
 
-  this._$joke       = $('.joke');
+  this._seenJokes = [];
+  this._$joke = $('.joke');
+  this._$jokeTemplate = this._$joke.clone();
+
+
   this._$joke.find('.question p').balanceText();
+
   this._loadJoke();
 
   $body.on('vclick', '.refresh-joke', this._refreshJoke.bind(this));
 
-  $body.on('vclick', '.header__info', this._showPageInfo.bind(this));
+  this._pageInfoVisible = false;
+  $body.on('vclick', '.header__info', this._togglePageInfo.bind(this));
   $body.on('vclick', '.page-info, .container', this._hidePageInfo.bind(this));
+
+
   this._addShareButtonListeners();
 
 
-  window.onpopstate = function (event) {
-    var nextPermalink    = document.location.pathname.substr(1);
-
-
-    self._loadJoke(nextPermalink)
-      .then(function(data) {
-        self._showJoke(data);
-        self._updateState(data);
-        self._invalidateRandomJoke();
-      })
-      .fail(function() {
-        alert(':(')
-      });
-      ;
-  };
-
+  window.onpopstate = this._onPopstate.bind(this);
 };
 
-App.prototype._showPageInfo = function(e) {
-  e.stopPropagation();
+App.prototype._onPopstate = function(event) {
+  var self = this;
+  var nextPermalink = document.location.pathname.substr(1);
+
+
+  self._loadJoke(nextPermalink)
+    .then(function(data) {
+      self._showJoke(data);
+      self._updateState(data);
+    })
+    .fail(function() {
+      alert(':(')
+    });
+    ;
+  // body...
+};
+
+App.prototype._togglePageInfo = function(e) {
+  if (e) {
+    e.stopPropagation();
+  }
+  if (this._pageInfoVisible) {
+    this._hidePageInfo();
+    return;
+  }
   this._pageInfoVisible = true;
   $('.page-info').velocity({
     translateY: ['0%', '-100%']
@@ -53,7 +73,14 @@ App.prototype._showPageInfo = function(e) {
   });
 };
 
-App.prototype._hidePageInfo = function() {
+App.prototype._hidePageInfo = function(e) {
+  if (e) {
+    e.stopPropagation();
+  }
+  if (!this._pageInfoVisible) {
+    return;
+  }
+  this._pageInfoVisible = false;
   $('.page-info').velocity({
     translateY: ['-100%', '0%']
   }, {
@@ -81,14 +108,12 @@ App.prototype._addShareButtonListeners = function() {
   $body.on('vclick', '.share--twitter', function(e) {
     e.preventDefault();
 
-    var $button = $(e.currentTarget);
-
     var text = document.title;
     var shareUrl = location.href;
 
     var params = {
         via: 'Goaskamt'
-      , original_referer: location.href
+      , original_referer: shareUrl
       , text: text
       , url: shareUrl
     };
@@ -110,9 +135,12 @@ App.prototype._loadJoke = function(permalink) {
 
   if (!self._promises[permalink]) {
     var deferred = $.Deferred();
-    $.getJSON('/' + permalink + '.json')
+
+    $.post('/' + permalink + '.json', {not: self._seenJokes})
       .then(function(data) {
-        self._promises[data.permalink] = deferred.promise();
+        if (data) {
+          self._promises[data.permalink] = deferred.promise();
+        }
         deferred.resolve(data);
       })
       .fail(function() {
@@ -126,7 +154,7 @@ App.prototype._loadJoke = function(permalink) {
 
 App.prototype._showJoke = function(data) {
   var $oldJoke = this._$joke;
-  var $newJoke = $oldJoke.clone().css('opacity', 0);
+  var $newJoke = this._$jokeTemplate.clone().css('opacity', 0);
 
   var url = "http://goaskamt.se/" + data.permalink;
 
@@ -134,22 +162,36 @@ App.prototype._showJoke = function(data) {
   $newJoke.find('.answer').html(data.answer);
   $newJoke.find('.share--url span').text(url);
 
-  $newJoke.find('.share--twitter').val(url);
+  $newJoke.insertAfter($oldJoke);
 
-  $newJoke.insertAfter($oldJoke).find('.question p').balanceText();
+  $newJoke.find('.question p').balanceText();
 
-  $oldJoke.velocity({
-    scale: 0.7,
-    opacity: [0, 1]
-  }, 500, 'easeOutQuart', function(){
-    $oldJoke.remove();
-  });
-  $newJoke.velocity({
-    scale: [1, 1.2],
-    opacity: [1, 0]
-  }, 500, 'easeOutQuart');
 
   this._$joke = $newJoke;
+
+  nextTick(function() {
+    $oldJoke.velocity({
+      scale: 1.5,
+      opacity: [0, 1]
+    }, 500, 'easeOutQuart', function(){
+      $oldJoke.remove();
+    });
+
+    setTimeout(function() {
+      $newJoke.velocity({
+        opacity: [1, 0]
+      }, 700);
+      $newJoke.find('.question').velocity('transition.slideDownBigIn', {duration: 500});
+      $newJoke.find('.answer')
+        .css('opacity', 0)
+        .velocity('transition.slideUpBigIn', {delay: 700, duration: 500})
+        ;
+
+    }, 300);
+  });
+
+
+  this._seenJokes.push(data.permalink);
 };
 
 App.prototype._updateState = function(data) {
@@ -176,6 +218,14 @@ App.prototype._refreshJoke = function(e) {
 
   this._loadJoke()
     .then(function(data) {
+      console.log('then', data);
+      if (!data) {
+        self._seenJokes = [];
+        self._invalidateRandomJoke();
+        alert('Du har sett alla goa skämt!');
+        self._refreshJoke();
+        return;
+      }
       self._showJoke(data);
       self._updateState(data);
       self._invalidateRandomJoke();
