@@ -171,7 +171,7 @@ App.prototype._showJoke = function(data) {
 
   nextTick(function() {
     $oldJoke.velocity({
-      scale: 1.5,
+      scale: 0.85,
       opacity: [0, 1]
     }, 500, 'easeOutQuart', function(){
       $oldJoke.remove();
