@@ -4,26 +4,24 @@ html
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='chrome=1')
     link(rel='icon', href='/img/goa-app-icon-medium.png', type='image/png')
-    title #{title} | Goaskämt.se
+    title Goaskämt.se
     link(rel='canonical', href='http://goaskamt.se/#{canonical}')
     meta(name='apple-mobile-web-app-capable', content='yes')
     meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no')
-    meta(name="description", content="Skämt för dig som alltid velat vara rolig.")
-
+    meta(name="description", content="#{joke}")
     <!-- Twitter Card data -->
     meta(name="twitter:card", content="summary")
-    meta(name="twitter:site", content="@goaskamt")
-    meta(name="twitter:title", content="#{title} | Goaskämt.se")
-    meta(name="twitter:description", content="Skämt för dig som alltid velat vara rolig.")
+    meta(name="twitter:title", content="Ett gott skämt")
+    meta(name="twitter:description", content="#{joke}")
     meta(name="twitter:image", content="http://goaskämt.se/img/goa-app-icon.png")
     <!-- Open Graph data -->
     meta(property="og:type", content="article")
     meta(property="og:image", content="http://goaskämt.se/img/goa-app-icon.png")
     meta(property="fb:app_id", content="1542491712636260")
-    meta(property='og:title', content='#{title} | Goaskämt.se')
-    meta(property='og:description', content='Skämt för dig som alltid velat vara rolig.')
+    meta(property='og:title', content='Ett gott skämt')
+    meta(property='og:description', content='#{joke}')
     meta(property='og:url', content='http://goaskamt.se/#{location}')
-    meta(property='og:site_name', content='Goa skämt')
+    meta(property='og:site_name', content='Goaskämt.se')
 
     link(rel='stylesheet', href='/css/style.css')
 

@@ -164,7 +164,7 @@ var renderTip = function(tip, res, location) {
       tip: tip,
       location: location,
       canonical: tip.permalink,
-      title: tip.question.replace(/(<([^>]+)>)/ig,"")
+      joke: tip.question.replace(/(<([^>]+)>|\n)/ig,"") + ' ' + tip.answer.replace(/(<([^>]+)>)/ig,"")
     }
   });
 };

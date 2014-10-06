@@ -108,12 +108,11 @@ App.prototype._addShareButtonListeners = function() {
   $body.on('vclick', '.share--twitter', function(e) {
     e.preventDefault();
 
-    var text = document.title;
+    var text = $('meta[name=description]').attr('content');
     var shareUrl = location.href;
 
     var params = {
-        via: 'Goaskamt'
-      , original_referer: shareUrl
+      original_referer: shareUrl
       , text: text
       , url: shareUrl
     };
