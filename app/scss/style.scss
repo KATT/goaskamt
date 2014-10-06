@@ -5,7 +5,7 @@
 @import "compass/css3/flexbox";
 @import "compass/layout/stretching";
 
-@import "variables", "mediaqueries", "mixins", "typography", "button", "font";
+@import "variables", "mediaqueries", "mixins", "typography", "font";
 @import url(http://fonts.googleapis.com/css?family=Dosis:300,700);
 
 html {
@@ -128,7 +128,17 @@ i {
 }
 .header__info {
   float: right;
-  @extend a;
+  cursor: pointer;
+  display: block;
+  height: 28px;
+  width: 28px;
+  text-align: center;
+  line-height: 28px;
+  margin: 9px 0;
+  @include border-radius(50%);
+  i {
+    margin: 0;
+  }
 }
 /*
  * JOKE
@@ -173,6 +183,12 @@ i {
     line-height: 1.25;
     @include margin(1, 1);
     @include fs($gamma);
+  }
+}
+.joke__share {
+  text-transform: uppercase;
+  span {
+    padding: 0 5px 0 0;
   }
 }
 @media #{$medium-up}{
@@ -223,4 +239,4 @@ i {
   }
 }
 
-@import "_partials/header","_partials/joke";
+@import "_partials/joke";
