@@ -20,11 +20,13 @@ socket.configure(function () {
 app.configure(function () {
   app.use(express.methodOverride());
   app.use(express.bodyParser());
-  app.use(app.router);
+
   app.use(express.static(__dirname + '/public'));
   app.use(forceDomain({
     hostname: 'goaskamt.se'
   }));
+  app.use(app.router);
+
   app.set('view engine', 'jade');
 });
 
@@ -41,6 +43,8 @@ var tips = [
     answer:     marked('Test')
   }
 ];
+
+
 
 var permalinks = {};
 
@@ -172,6 +176,7 @@ var renderTip = function(tip, res, location) {
     }
   });
 };
+
 
 // Routes
 app.all('/.:format?', function (req, res) {
