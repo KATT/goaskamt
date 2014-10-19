@@ -7,8 +7,7 @@
     "node": "~0.10.5",
     "npm": "~1.2.18"
   },
-  "scripts": {
-  },
+  "scripts": {},
   "dependencies": {
     "express": "2.5.6",
     "highlight": "0.1.0",
@@ -23,6 +22,7 @@
     "clean-css-brunch": "^1.7.1",
     "uglify-js-brunch": "^1.7.7",
     "auto-reload-brunch": "^1.7.3",
-    "gitinfo-brunch": "^0.1.2"
+    "gitinfo-brunch": "^0.1.2",
+    "node-force-domain": "^0.1.0"
   }
 }

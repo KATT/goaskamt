@@ -4,7 +4,8 @@ var express = require('express'),
     hl = require("highlight").Highlight,
     io = require('socket.io'),
     marked = require('marked'),
-    https = require('https')
+    https = require('https'),
+    forceDomain = require('node-force-domain')
     ;
 
 
@@ -21,6 +22,9 @@ app.configure(function () {
   app.use(express.bodyParser());
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
+  app.use(forceDomain({
+    hostname: 'goaskamt.se'
+  }));
   app.set('view engine', 'jade');
 });
 
